@@ -33,8 +33,37 @@ def insertion_sort(array):
             array[index] = array[index - 1]
             index -= 1
         array[index] = key_value
-        print(array)
     return array
+
+
+def partition(array, left, right):
+    pivot = array[left]
+    low = left + 1
+    high = right
+
+    while low < high:
+        while low <= right and array[low] < pivot:
+            low += 1
+        while high >= left + 1 and array[high] > pivot:
+            high -= 1
+
+        if low > right:
+            low -= 1
+        if high < left + 1:
+            high += 1
+
+        if low < high:
+            temp = array[low]
+            array[low] = array[high]
+            array[high] = temp
+
+    if pivot > array[high]:
+        temp = array[high]
+        array[high] = array[left]
+        array[left] = temp
+        print(array)
+
+    return high
 
 
 def quick_sort(array, left, right):
@@ -43,43 +72,13 @@ def quick_sort(array, left, right):
     low: 피벗의 위치 + 1, high: right
     pivot 값의 크기를 기준으로 정렬
     """
-    if right <= left:
-        return
+    if left < right:
+        pivot_index = partition(array, left, right)
 
-    pivot = array[left]
-    low = left + 1
-    high = right
-
-    while low < high:
-        while low <= right and array[low] < pivot:
-            low += 1
-        while high >= left and array[high] > pivot:
-            high -= 1
-
-        if low < high:
-            temp = array[low]
-            array[low] = array[high]
-            array[high] = temp
-
-    if array[high] < pivot:
-        tmp = array[high]
-        array[high] = array[left]
-        array[left] = tmp
-
-    quick_sort(array, left, high - 1)
-    quick_sort(array, high + 1, right)
+        quick_sort(array, left, pivot_index - 1)
+        quick_sort(array, pivot_index, right)
 
     return array
-
-
-def merge_sort(array, result, left, right):
-    if left < right:
-        middle = (left + right) // 2
-        merge_sort(array, result, left, middle)
-        merge_sort(array, result, middle + 1, right)
-        merge(array, result, left, middle, right)
-
-    return result
 
 
 def merge(array, result, left, middle, right):
@@ -108,16 +107,14 @@ def merge(array, result, left, middle, right):
     array[left:right + 1] = result[left:right + 1]
 
 
-def shell_sort(array, size):
-    gap = size // 2
-    while gap > 0:
-        if gap % 2 == 0:
-            gap += 1
-        for i in range(gap):
-            inc_insertion_sort(array, i, size - 1, gap)
-        gap //= 2
+def merge_sort(array, result, left, right):
+    if left < right:
+        middle = (left + right) // 2
+        merge_sort(array, result, left, middle)
+        merge_sort(array, result, middle + 1, right)
+        merge(array, result, left, middle, right)
 
-    return array
+    return result
 
 
 def inc_insertion_sort(array, first, last, gap):
@@ -128,6 +125,18 @@ def inc_insertion_sort(array, first, last, gap):
             array[index] = array[index - gap]
             index -= gap
         array[index] = key_value
+
+
+def shell_sort(array, size):
+    gap = size // 2
+    while gap > 0:
+        if gap % 2 == 0:
+            gap += 1
+        for i in range(gap):
+            inc_insertion_sort(array, i, size - 1, gap)
+        gap //= 2
+
+    return array
 
 
 class TestSortingAlgorithm(TestCase):
