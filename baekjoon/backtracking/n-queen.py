@@ -1,79 +1,46 @@
 import sys
 
-# def solution():
-#     input = sys.stdin.readline
-#     n = 1
-#     result = 0
-#     start = 0
-#     while start < n:
-#         queue = deque([start])
-#
-#         if len(queue) == n:
-#             result += 1
-#         else:
-#             for nc in range(n):
-#                 queue.append(nc)
-#                 if is_possible(pos, nc):
-#                     queue.append(pos + [nc])
-#         start += 1
-#     print(result)
-#
-#
-# def is_possible(pos, nc):
-#     if nc in pos:
-#         return False
-#     nr = len(pos)
-#     for r, c in enumerate(pos):
-#         if abs(nr - r) == abs(nc - c):
-#             return False
-#     return True
+"""
+이 문제를 파이썬으로 통과하기 위해서는 능숙한 최적화가 필요하다
+    -> 일반적인 코드로는 통과히기 어렵다.
+"""
 
 
-result = 0
-n = None
-col = [-1] * 15
-c = None
-
-def solution2():
-    input = sys.stdin.readline
-    # n = int(input())
-    global n
-    n = 12
-    global col
+def dfs(arr):
     global result
-    global c
-    c = range(n)
-    for i in c:
-        col[0] = i
-        dfs(0)
-    print(result)
-
-
-def dfs(row):
-    global n
-    global result
-    global col
-    global c
-    if row == n - 1:
+    if len(arr) == n:
         result += 1
-    else:
-        for i in c:
-            col[row + 1] = i
-            if is_possible2(row + 1):
-                dfs(row + 1)
-            else:
-                col[row + 1] = -1
-    col[row] = -1
+        return
+
+    next_pos = set(range(n)).difference(arr)
+    dist = range(len(arr), 0, -1)
+    next_pos.difference_update(map(lambda x, y: y - x, dist, arr))
+    next_pos.difference_update(map(lambda x, y: y + x, dist, arr))
+
+    # next_pos = list(set(range(num)).difference(arr))
+    # for i in range(len(arr)):
+    #     dist = len(arr) - i
+    #     if arr[i] + dist in next_pos:
+    #         next_pos.remove(arr[i] + dist)
+    #     if arr[i] - dist in next_pos:
+    #         next_pos.remove(arr[i] - dist)
+
+    for pos in next_pos:
+        dfs(arr + [pos])
 
 
-def is_possible2(row):
-    global col
-    if col[row] in col[:row]:
-        return False
-    for i in range(row):
-        if abs(row - i) == abs(col[row] - col[i]):
-            return False
-    return True
+n = None
+result = 0
+
+
+def solution():
+    input = sys.stdin.readline
+    global n
+    n = int(input())
+    # n = 8
+    for i in range(n):
+        dfs([i])
+    print(result)
 
 
 import unittest
@@ -87,5 +54,4 @@ class TestSolution(unittest.TestCase):
         pass
 
     def test_solution(self):
-        # solution()
-        solution2()
+        solution()
