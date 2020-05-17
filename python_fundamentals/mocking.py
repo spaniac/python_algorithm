@@ -2,8 +2,6 @@ import unittest
 from pprint import pprint
 from unittest.mock import patch
 
-from python_fundamentals.momo import request_all_users
-
 
 class MockingTest(unittest.TestCase):
     def setUp(self) -> None:
@@ -91,6 +89,8 @@ class MockingTest(unittest.TestCase):
                 "last_login": None
             }, ]})
     def test_get_user_list(self, mock_result):
+        from python_fundamentals.momo import ClassA
+
         exp_result = {
             "count": 50,
             "next": "http://127.0.0.1:8000/blog?page=2",
@@ -107,7 +107,7 @@ class MockingTest(unittest.TestCase):
                     "nickname": "Laura Owens",
                     "last_login": None
                 }, ]}
-        as_result = request_all_users()
+        as_result = ClassA().request_all_users()
         self.assertEqual(exp_result, as_result)
         pprint(mock_result.return_value)
 

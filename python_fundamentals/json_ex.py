@@ -24,8 +24,8 @@ a = {
 
 if __name__ == '__main__':
     b = json.dumps(a, indent=4)
-    # print(b)
-    # print(type(b))
+    print(b)
+    print(type(b))
     # c = json.loads(b)
     # print(type(c))
     # print(c)
@@ -38,13 +38,13 @@ if __name__ == '__main__':
     # print(type(d))
     # pprint(d)
 
-    with open('ex.txt', 'w') as f:
-        for i in range(10):
-            f.write(str(i) + '\n')
-
-    with open('ex.txt', 'r') as f:
-        e = f.readline()
-    print(e)
+    # with open('ex.txt', 'w') as f:
+    #     for i in range(10):
+    #         f.write(str(i) + '\n')
+    #
+    # with open('ex.txt', 'r') as f:
+    #     e = f.readline()
+    # print(e)
 """
 open 모드
 r: 읽기 모드. 파일이 없으면 Error.

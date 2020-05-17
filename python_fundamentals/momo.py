@@ -1,10 +1,6 @@
-import requests
+from python_fundamentals.momo2 import request_get_user_list
 
 
-def request_all_users():
-    return request_get_user_list()
-
-
-def request_get_user_list():
-    response = requests.get("http://127.0.0.1:8000/blog")
-    return response.json()
+class ClassA:
+    def request_all_users(self):
+        return request_get_user_list()
